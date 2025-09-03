@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Macros Calculator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Macros Calculator</h1>
+  </header>
+
+  <div class="container">
+    <form id="macrosForm">
+      <label>Calories:</label>
+      <input type="number" id="calories" required>
+
+      <label>Protein (%):</label>
+      <input type="number" id="protein" required>
+
+      <label>Fat (%):</label>
+      <input type="number" id="fat" required>
+
+      <label>Carbs (%):</label>
+      <input type="number" id="carbs" required>
+
+      <button type="submit">Calculate Macros</button>
+    </form>
+
+    <div id="macrosResult"></div>
+  </div>
+
+  <script src="/app.js"></script>
+  <script>
+    document.getElementById("macrosForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        calories: parseFloat(document.getElementById("calories").value),
+        proteinPercent: parseFloat(document.getElementById("protein").value),
+        fatPercent: parseFloat(document.getElementById("fat").value),
+        carbPercent: parseFloat(document.getElementById("carbs").value)
+      };
+
+      const result = await postData("/api/macros", data);
+      if (result) {
+        document.getElementById("macrosResult").innerHTML =
+          `<p><b>Protein:</b> ${result.proteinGrams} g <br>
+             <b>Fat:</b> ${result.fatGrams} g <br>
+             <b>Carbs:</b> ${result.carbGrams} g</p>`;
+      }
+    });
+  </script>
+</body>
+</html>

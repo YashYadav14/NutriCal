@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calories Calculator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Calories Calculator</h1>
+  </header>
+
+  <div class="container">
+    <form id="caloriesForm">
+      <label>Sex:</label>
+      <select id="sex">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+      </select>
+
+      <label>Age:</label>
+      <input type="number" id="age" required>
+
+      <label>Weight (kg):</label>
+      <input type="number" id="weight" required>
+
+      <label>Height (cm):</label>
+      <input type="number" id="height" required>
+
+      <label>Activity Level:</label>
+      <select id="activity">
+        <option value="sedentary">Sedentary</option>
+        <option value="light">Light</option>
+        <option value="moderate">Moderate</option>
+        <option value="active">Active</option>
+        <option value="very_active">Very Active</option>
+      </select>
+
+      <label>Goal:</label>
+      <select id="goal">
+        <option value="maintain">Maintain</option>
+        <option value="cut">Cut</option>
+        <option value="bulk">Bulk</option>
+      </select>
+
+      <button type="submit">Calculate Calories</button>
+    </form>
+
+    <div id="caloriesResult"></div>
+  </div>
+
+  <script src="/app.js"></script>
+  <script>
+    document.getElementById("caloriesForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        sex: document.getElementById("sex").value,
+        age: parseInt(document.getElementById("age").value),
+        weightKg: parseFloat(document.getElementById("weight").value),
+        heightCm: parseFloat(document.getElementById("height").value),
+        activityLevel: document.getElementById("activity").value,
+        goal: document.getElementById("goal").value
+      };
+
+      const result = await postData("/api/calories", data);
+      if (result) {
+        document.getElementById("caloriesResult").innerHTML =
+          `<p><b>BMR:</b> ${result.bmr} <br>
+             <b>Activity Factor:</b> ${result.activityFactor} <br>
+             <b>TDEE:</b> ${result.tdee} <br>
+             <b>Goal Calories:</b> ${result.goalCalories}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
