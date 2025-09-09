@@ -1,43 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BMI Calculator</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator | NutriCal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-  <header>
-    <h1>BMI Calculator</h1>
-  </header>
+<body class="d-flex flex-column min-vh-100">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	        <a class="navbar-brand" href="/dashboard">
+	            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-inline-block align-text-top me-2"><path d="M2 18.24C2 13.48 7.48 4 12 4s10 9.48 10 14.24"></path><path d="M12 4v16"></path></svg>
+	            NutriCal
+	        </a>
+	        <div class="navbar-nav ms-auto">
+	            <a class="nav-link" href="/dashboard">Dashboard</a>
+	            <a class="nav-link active" href="/bmi">BMI</a>
+	            <a class="nav-link" href="/calories">Calories</a>
+	            <a class="nav-link" href="/macros">Macros</a>
+	            <!-- FIX: Changed to hasAuthority -->
+	            <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+	                <a class="nav-link" th:href="@{/admin}">Admin Panel</a>
+	            </div>
+	            <form th:action="@{/logout}" method="post" class="d-inline">
+	                <button type="submit" class="btn btn-link nav-link">Logout</button>
+	            </form>
+	        </div>
+	    </div>
+	</nav>
 
-  <div class="container">
-    <form id="bmiForm">
-      <label>Weight (kg):</label>
-      <input type="number" id="weight" required>
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card shadow-sm p-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">BMI Calculator</h2>
+                        <form id="bmiForm">
+                            <div class="mb-3">
+                                <label for="weight" class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-control" id="weight" required min="1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="height" class="form-label">Height (cm)</label>
+                                <input type="number" class="form-control" id="height" required min="1">
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    Calculate BMI
+                                </button>
+                            </div>
+                        </form>
+                        <div id="error-alert" class="alert alert-danger mt-4 d-none" role="alert"></div>
+                        <div id="bmiResult" class="mt-4 result-card d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-      <label>Height (cm):</label>
-      <input type="number" id="height" required>
-
-      <button type="submit">Calculate BMI</button>
-    </form>
-
-    <div id="bmiResult"></div>
-  </div>
-
-  <script src="/app.js"></script>
-  <script>
-    document.getElementById("bmiForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const weightKg = parseFloat(document.getElementById("weight").value);
-      const heightCm = parseFloat(document.getElementById("height").value);
-
-      const result = await postData("/api/bmi", { weightKg, heightCm });
-      if (result) {
-        document.getElementById("bmiResult").innerHTML =
-          `<p><b>BMI:</b> ${result.bmi}, <b>Category:</b> ${result.category}</p>`;
-      }
-    });
-  </script>
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p>&copy; 2024 NutriCal. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="/app.js" defer></script>
 </body>
 </html>

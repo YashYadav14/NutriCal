@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nutrition Tools</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to NutriCal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-  <header>
-    <h1>Nutrition Tools</h1>
-  </header>
+<body class="d-flex flex-column min-vh-100">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	        <a class="navbar-brand" href="/">
+	            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-inline-block align-text-top me-2"><path d="M2 18.24C2 13.48 7.48 4 12 4s10 9.48 10 14.24"></path><path d="M12 4v16"></path></svg>
+	            NutriCal
+	        </a>
+	        <div class="navbar-nav ms-auto">
+	            <a class="nav-link" href="/login">Login</a>
+	            <a class="btn btn-primary" href="/register">Sign Up</a>
+	        </div>
+	    </div>
+	</nav>
 
-  <div class="container">
-    <h2>Choose a Tool</h2>
-    <ul>
-      <li><a href="/bmi">BMI Calculator</a></li>
-      <li><a href="/calories">Calories Calculator</a></li>
-      <li><a href="/macros">Macros Calculator</a></li>
-    </ul>
-  </div>
+    <main class="container text-center my-5">
+        <h1 class="display-3">Track Your Nutrition. Achieve Your Goals.</h1>
+        <p class="lead text-muted my-4">NutriCal provides the tools you need to understand your body's needs and take control of your health journey.</p>
+        <a href="/register" class="btn btn-primary btn-lg">Get Started for Free</a>
+    </main>
 
-  <script src="/app.js"></script>
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p>&copy; 2024 NutriCal. All Rights Reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
+

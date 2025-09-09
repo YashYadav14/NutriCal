@@ -1,5 +1,6 @@
 package com.yash.nutrition.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.Instant;
 
@@ -10,6 +11,11 @@ public class MacrosRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
     private int calories;
     private double proteinPercent;
@@ -41,6 +47,8 @@ public class MacrosRecord {
 
     // getters & setters
     public Long getId() { return id; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
     public int getCalories() { return calories; }
     public void setCalories(int calories) { this.calories = calories; }
     public double getProteinPercent() { return proteinPercent; }

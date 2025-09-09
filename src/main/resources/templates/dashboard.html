@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | NutriCal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	        <a class="navbar-brand" href="/dashboard">
+	            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-inline-block align-text-top me-2"><path d="M2 18.24C2 13.48 7.48 4 12 4s10 9.48 10 14.24"></path><path d="M12 4v16"></path></svg>
+	            NutriCal
+	        </a>
+	        <div class="navbar-nav ms-auto">
+	            <a class="nav-link active" href="/dashboard">Dashboard</a>
+	            <a class="nav-link" href="/bmi">BMI</a>
+	            <a class="nav-link" href="/calories">Calories</a>
+	            <a class="nav-link" href="/macros">Macros</a>
+	            <!-- FIX: Changed to hasAuthority -->
+	            <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+	                <a class="nav-link" th:href="@{/admin}">Admin Panel</a>
+	            </div>
+	            <form th:action="@{/logout}" method="post" class="d-inline">
+	                <button type="submit" class="btn btn-link nav-link">Logout</button>
+	            </form>
+	        </div>
+	    </div>
+	</nav>
+
+    <main class="container my-5">
+        <h1 class="mb-4">Welcome, <span th:text="${username}">User</span>!</h1>
+        <div class="row g-4">
+            <!-- BMI GAUGE CARD -->
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Your Latest BMI Status</h5>
+                        <div id="bmi-gauge-container">
+                            <!-- This is the new BMI Gauge -->
+                            <div class="gauge-wrapper">
+                                <div class="gauge-bar">
+                                    <div class="gauge-section" style="background-color: #5c9ced;"><span>Underweight</span></div>
+                                    <div class="gauge-section" style="background-color: #6dcf93;"><span>Normal</span></div>
+                                    <div class="gauge-section" style="background-color: #f7d365;"><span>Overweight</span></div>
+                                    <div class="gauge-section" style="background-color: #f78b7b;"><span>Obese</span></div>
+                                </div>
+                                <div id="bmiIndicator" class="gauge-indicator"></div>
+                                <div class="gauge-labels">
+                                    <span>18.5</span>
+                                    <span>25</span>
+                                    <span>30</span>
+                                </div>
+                            </div>
+                             <div id="bmiResultText" class="text-center mt-3">
+                                <!-- JS will populate this -->
+                            </div>
+                        </div>
+                        <p id="bmi-no-data" class="text-muted text-center d-none">
+                            You have no BMI data yet. Go to the <a href="/bmi">BMI Calculator</a> to get started.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LATEST CALORIES CARD -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body" id="calories-latest">
+                        <h5 class="card-title">Latest Calorie Goal</h5>
+                        <p class="text-muted">No data yet. Use the <a href="/calories">Calorie Calculator</a>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LATEST MACROS CARD -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body" id="macros-latest">
+                        <h5 class="card-title">Latest Macros Breakdown</h5>
+                        <p class="text-muted">No data yet. Use the <a href="/macros">Macros Calculator</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p>&copy; 2024 NutriCal. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="/app.js" defer></script>
+</body>
+</html>

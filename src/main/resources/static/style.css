@@ -1,50 +1,160 @@
+/* ==========================================================================
+   1. Global Styles & Typography
+   ========================================================================== */
+
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f7fa;
-  margin: 0;
-  padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-header {
-  background: #3a86ff;
-  color: white;
-  padding: 15px;
-  text-align: center;
+main {
+    flex: 1;
 }
 
-.container {
-  width: 90%;
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+/* ==========================================================================
+   2. Layout & Component Styles
+   ========================================================================== */
+
+/* Navbar & Footer Theme */
+.bg-dark {
+    background-color: #43A047 !important; /* A lighter, medium green */
 }
 
-h2 {
-  color: #3a86ff;
+.navbar-brand {
+    font-weight: 600;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
+/* General Card Styles */
+.card {
+    border: none;
+    border-radius: 15px;
 }
 
-input, select, button {
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+/* Main Page Tool Cards */
+.tool-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-button {
-  background: #3a86ff;
-  color: white;
-  border: none;
-  cursor: pointer;
+.tool-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
 }
 
-button:hover {
-  background: #265dbe;
+/* Buttons */
+.btn-primary {
+    background-color: #66BB6A; /* A fresh, lighter green */
+    border-color: #66BB6A;
+    padding: 12px;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #57a95b; /* A slightly darker shade for hover */
+    border-color: #57a95b;
+}
+
+/* Result Card (on calculator pages) */
+.result-card {
+    background-color: #edf7ed; /* A very light, subtle green */
+    border-left: 5px solid #66BB6A; /* Fresh green accent border */
+    padding: 20px;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.result-card h4 {
+    color: #43A047; /* Corresponds with the new navbar color */
+    margin-bottom: 15px;
+}
+
+.result-card p {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.result-card .value {
+    font-weight: 600;
+    color: #333;
+}
+
+/* ==========================================================================
+   3. Dashboard BMI Gauge Styles
+   ========================================================================== */
+
+.gauge-wrapper {
+    position: relative;
+    padding: 0 15px;
+    margin-top: 10px;
+}
+
+.gauge-bar {
+    width: 100%;
+    height: 30px; /* Slightly taller for text */
+    background: #eee;
+    display: flex;
+    border-radius: 15px;
+    overflow: hidden;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.gauge-section {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Defines the width of each BMI category */
+.gauge-section:nth-child(1) { width: 30%; } /* Underweight: up to 18.5 */
+.gauge-section:nth-child(2) { width: 35%; } /* Normal: 18.5 to 25 */
+.gauge-section:nth-child(3) { width: 15%; } /* Overweight: 25 to 30 */
+.gauge-section:nth-child(4) { width: 20%; } /* Obese: 30+ */
+
+.gauge-indicator {
+    position: absolute;
+    bottom: 30px; /* Position it above the bar */
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid #343a40; /* Dark pointer */
+    transform: translateX(-50%);
+    transition: left 0.5s ease-in-out;
+}
+
+.gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 0.8rem;
+    color: #6c757d;
+    /* Adjust label positions to align with section breaks */
+    margin-left: 28%;
+    width: 47%;
+}
+
+
+/* ==========================================================================
+   4. Animations
+   ========================================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

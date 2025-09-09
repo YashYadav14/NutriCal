@@ -1,77 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Calories Calculator</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calories Calculator | NutriCal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-  <header>
-    <h1>Calories Calculator</h1>
-  </header>
+<body class="d-flex flex-column min-vh-100">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	        <a class="navbar-brand" href="/dashboard">
+	            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-inline-block align-text-top me-2"><path d="M2 18.24C2 13.48 7.48 4 12 4s10 9.48 10 14.24"></path><path d="M12 4v16"></path></svg>
+	            NutriCal
+	        </a>
+	        <div class="navbar-nav ms-auto">
+	            <a class="nav-link" href="/dashboard">Dashboard</a>
+	            <a class="nav-link" href="/bmi">BMI</a>
+	            <a class="nav-link active" href="/calories">Calories</a>
+	            <a class="nav-link" href="/macros">Macros</a>
+	            <!-- FIX: Changed to hasAuthority -->
+	            <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+	                <a class="nav-link" th:href="@{/admin}">Admin Panel</a>
+	            </div>
+	            <form th:action="@{/logout}" method="post" class="d-inline">
+	                <button type="submit" class="btn btn-link nav-link">Logout</button>
+	            </form>
+	        </div>
+	    </div>
+	</nav>
 
-  <div class="container">
-    <form id="caloriesForm">
-      <label>Sex:</label>
-      <select id="sex">
-        <option value="M">Male</option>
-        <option value="F">Female</option>
-      </select>
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm p-4">
+                    <div class="card-body">
+                         <h2 class="card-title text-center mb-4">Daily Calorie Calculator</h2>
+                         <form id="caloriesForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="age" required min="1">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="sex" class="form-label">Sex</label>
+                                    <select id="sex" class="form-select">
+                                        <option value="MALE">Male</option>
+                                        <option value="FEMALE">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="weight" class="form-label">Weight (kg)</label>
+                                    <input type="number" class="form-control" id="weight" required min="1">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="height" class="form-label">Height (cm)</label>
+                                    <input type="number" class="form-control" id="height" required min="1">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="activity" class="form-label">Activity Level</label>
+                                <select id="activity" class="form-select">
+                                    <option value="SEDENTARY">Sedentary (little or no exercise)</option>
+                                    <option value="LIGHT">Light (exercise 1-3 days/week)</option>
+                                    <option value="MODERATE">Moderate (exercise 3-5 days/week)</option>
+                                    <option value="ACTIVE">Active (exercise 6-7 days/week)</option>
+                                    <option value="VERY_ACTIVE">Very Active (very hard exercise & physical job)</option>
+                                </select>
+                            </div>
+                             <div class="mb-3">
+                                <label for="goal" class="form-label">Your Goal</label>
+                                <select id="goal" class="form-select">
+                                    <option value="MAINTAIN">Maintain weight</option>
+                                    <option value="CUT">Weight loss (cut)</option>
+                                    <option value="BULK">Weight gain (bulk)</option>
+                                </select>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    Calculate Calories
+                                </button>
+                            </div>
+                         </form>
+                         <div id="error-alert" class="alert alert-danger mt-4 d-none" role="alert"></div>
+                         <div id="caloriesResult" class="mt-4 result-card d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-      <label>Age:</label>
-      <input type="number" id="age" required>
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p>&copy; 2024 NutriCal. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-      <label>Weight (kg):</label>
-      <input type="number" id="weight" required>
-
-      <label>Height (cm):</label>
-      <input type="number" id="height" required>
-
-      <label>Activity Level:</label>
-      <select id="activity">
-        <option value="sedentary">Sedentary</option>
-        <option value="light">Light</option>
-        <option value="moderate">Moderate</option>
-        <option value="active">Active</option>
-        <option value="very_active">Very Active</option>
-      </select>
-
-      <label>Goal:</label>
-      <select id="goal">
-        <option value="maintain">Maintain</option>
-        <option value="cut">Cut</option>
-        <option value="bulk">Bulk</option>
-      </select>
-
-      <button type="submit">Calculate Calories</button>
-    </form>
-
-    <div id="caloriesResult"></div>
-  </div>
-
-  <script src="/app.js"></script>
-  <script>
-    document.getElementById("caloriesForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const data = {
-        sex: document.getElementById("sex").value,
-        age: parseInt(document.getElementById("age").value),
-        weightKg: parseFloat(document.getElementById("weight").value),
-        heightCm: parseFloat(document.getElementById("height").value),
-        activityLevel: document.getElementById("activity").value,
-        goal: document.getElementById("goal").value
-      };
-
-      const result = await postData("/api/calories", data);
-      if (result) {
-        document.getElementById("caloriesResult").innerHTML =
-          `<p><b>BMR:</b> ${result.bmr} <br>
-             <b>Activity Factor:</b> ${result.activityFactor} <br>
-             <b>TDEE:</b> ${result.tdee} <br>
-             <b>Goal Calories:</b> ${result.goalCalories}</p>`;
-      }
-    });
-  </script>
+    <script src="/app.js" defer></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.yash.nutrition.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.Instant;
 
@@ -10,6 +11,11 @@ public class CaloriesRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
     private String sex;
     private int age;
@@ -45,8 +51,10 @@ public class CaloriesRecord {
     @PrePersist
     public void prePersist() { this.createdAt = Instant.now(); }
 
-    // getters & setters (generated)
+    // getters & setters
     public Long getId() { return id; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
     public String getSex() { return sex; }
     public void setSex(String sex) { this.sex = sex; }
     public int getAge() { return age; }

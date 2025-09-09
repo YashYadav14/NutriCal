@@ -1,5 +1,6 @@
 package com.yash.nutrition.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.Instant;
 
@@ -10,6 +11,11 @@ public class BMIRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore // Prevents sending the whole user object back in API responses
+    private User user;
 
     private double weightKg;
     private double heightCm;
@@ -35,6 +41,8 @@ public class BMIRecord {
 
     // getters & setters
     public Long getId() { return id; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
     public double getWeightKg() { return weightKg; }
     public void setWeightKg(double weightKg) { this.weightKg = weightKg; }
     public double getHeightCm() { return heightCm; }

@@ -1,55 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Macros Calculator</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macros Calculator | NutriCal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-  <header>
-    <h1>Macros Calculator</h1>
-  </header>
+<body class="d-flex flex-column min-vh-100">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	        <a class="navbar-brand" href="/dashboard">
+	            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-inline-block align-text-top me-2"><path d="M2 18.24C2 13.48 7.48 4 12 4s10 9.48 10 14.24"></path><path d="M12 4v16"></path></svg>
+	            NutriCal
+	        </a>
+	        <div class="navbar-nav ms-auto">
+	            <a class="nav-link" href="/dashboard">Dashboard</a>
+	            <a class="nav-link" href="/bmi">BMI</a>
+	            <a class="nav-link" href="/calories">Calories</a>
+	            <a class="nav-link active" href="/macros">Macros</a>
+	            <!-- FIX: Changed to hasAuthority -->
+	            <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+	                <a class="nav-link" th:href="@{/admin}">Admin Panel</a>
+	            </div>
+	            <form th:action="@{/logout}" method="post" class="d-inline">
+	                <button type="submit" class="btn btn-link nav-link">Logout</button>
+	            </form>
+	        </div>
+	    </div>
+	</nav>
+    <main class="container my-5">
+         <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card shadow-sm p-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Macronutrient Calculator</h2>
+                        <form id="macrosForm">
+                            <div class="mb-3">
+                                <label for="calories" class="form-label">Total Daily Calories</label>
+                                <input type="number" class="form-control" id="calories" required min="1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="protein" class="form-label">Protein (%)</label>
+                                <input type="number" class="form-control" id="protein" required min="0" max="100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fat" class="form-label">Fat (%)</label>
+                                <input type="number" class="form-control" id="fat" required min="0" max="100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="carbs" class="form-label">Carbohydrates (%)</label>
+                                <input type="number" class="form-control" id="carbs" required min="0" max="100">
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    Calculate Macros
+                                </button>
+                            </div>
+                        </form>
+                        <div id="error-alert" class="alert alert-danger mt-4 d-none" role="alert"></div>
+                        <div id="macrosResult" class="mt-4 result-card d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p>&copy; 2024 NutriCal. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-  <div class="container">
-    <form id="macrosForm">
-      <label>Calories:</label>
-      <input type="number" id="calories" required>
-
-      <label>Protein (%):</label>
-      <input type="number" id="protein" required>
-
-      <label>Fat (%):</label>
-      <input type="number" id="fat" required>
-
-      <label>Carbs (%):</label>
-      <input type="number" id="carbs" required>
-
-      <button type="submit">Calculate Macros</button>
-    </form>
-
-    <div id="macrosResult"></div>
-  </div>
-
-  <script src="/app.js"></script>
-  <script>
-    document.getElementById("macrosForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const data = {
-        calories: parseFloat(document.getElementById("calories").value),
-        proteinPercent: parseFloat(document.getElementById("protein").value),
-        fatPercent: parseFloat(document.getElementById("fat").value),
-        carbPercent: parseFloat(document.getElementById("carbs").value)
-      };
-
-      const result = await postData("/api/macros", data);
-      if (result) {
-        document.getElementById("macrosResult").innerHTML =
-          `<p><b>Protein:</b> ${result.proteinGrams} g <br>
-             <b>Fat:</b> ${result.fatGrams} g <br>
-             <b>Carbs:</b> ${result.carbGrams} g</p>`;
-      }
-    });
-  </script>
+    <script src="/app.js" defer></script>
 </body>
 </html>
