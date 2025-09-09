@@ -25,4 +25,5 @@ It helps users calculate **BMI, daily calories, and macronutrient intake**.
 ## ⚡ How to Run
 1. Clone the repository  
    ```bash
-   git clone https://github.com/yashYadav14/nutrition-backend.git
+   git clone https://github.com/YashYadav14/NutriCal.git
+
