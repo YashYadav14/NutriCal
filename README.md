@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🍎 Nutrition Tools - Spring Boot Project
 
 This is a **Nutrition Calculator Web Application** built with **Spring Boot, MySQL, Bootstrap, HTML, CSS, and JavaScript**.  
@@ -28,4 +27,3 @@ It helps users calculate **BMI, daily calories, and macronutrient intake**.
    ```bash
    git clone https://github.com/YashYadav14/NutriCal.git
 
->>>>>>> 3b18ddf17243c5d0a6e6640bd69227bbf23573ee
