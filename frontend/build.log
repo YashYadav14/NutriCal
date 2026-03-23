@@ -1,0 +1,29 @@
+
+> frontend@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+Failed to compile.
+
+./src/app/chat/page.tsx
+69:14  Error: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/diet/page.tsx
+8:30  Error: 'Utensils' is defined but never used.  @typescript-eslint/no-unused-vars
+8:66  Error: 'ChevronRight' is defined but never used.  @typescript-eslint/no-unused-vars
+43:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/history/page.tsx
+5:16  Error: 'CardHeader' is defined but never used.  @typescript-eslint/no-unused-vars
+6:38  Error: 'Zap' is defined but never used.  @typescript-eslint/no-unused-vars
+6:43  Error: 'ChartPie' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ui/Card.tsx
+4:18  Error: 'HTMLMotionProps' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
